@@ -5,8 +5,10 @@
 //  Created by John Andrews on 11/22/24.
 //
 
+import Foundation
+
 struct Stock: Codable, Identifiable {
-    let id = UUID()
+    var id = UUID()
     let ticker: String
     let name: String
     let currency: String

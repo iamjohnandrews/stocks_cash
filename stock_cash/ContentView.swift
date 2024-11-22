@@ -7,18 +7,51 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct StockListView: View {
+    @StateObject private var viewModel = StockViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            switch viewModel.state {
+            case .loading:
+                ProgressView("Loading stocks...")
+            case .loaded:
+                List(viewModel.stocks) { stock in
+                    StockRowView(stock: stock)
+                }
+            case .empty:
+                Text("No stocks available.")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+            case .error(let message):
+                Text("Error: \(message)")
+                    .foregroundColor(.red)
+            }
         }
-        .padding()
+        .onAppear {
+            viewModel.fetchStocks()
+        }
     }
 }
 
+struct StockRowView: View {
+    let stock: Stock
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(stock.name).font(.headline)
+                Text(stock.ticker).font(.subheadline).foregroundColor(.gray)
+            }
+            Spacer()
+            Text("\(stock.currency) \(Double(stock.currentPriceCents) / 100, specifier: "%.2f")")
+                .bold()
+        }
+    }
+}
+
+
 #Preview {
-    ContentView()
+    StockListView()
+//    StockRowView(stock: )
 }
