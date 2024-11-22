@@ -5,7 +5,8 @@
 //  Created by John Andrews on 11/22/24.
 //
 
-struct Stock: Codable {
+struct Stock: Codable, Identifiable {
+    let id = UUID()
     let ticker: String
     let name: String
     let currency: String
