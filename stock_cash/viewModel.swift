@@ -11,16 +11,16 @@ class StockViewModel: ObservableObject {
     @Published var stocks: [Stock] = []
     @Published var state: ViewState = .loading
 
-    enum ViewState {
+    enum ViewState: Equatable {
         case loading
         case loaded
         case empty
         case error(String)
     }
 
-    private let service = StockService()
+    private let service: StockServiceProtocol
     
-    init(service: StockService = StockService()) {
+    init(service: StockServiceProtocol = StockService()) {
             self.service = service
         }
 

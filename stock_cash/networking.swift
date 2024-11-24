@@ -7,7 +7,11 @@
 
 import Foundation
 
-class StockService {
+protocol StockServiceProtocol {
+    func fetchStocks(from url: URL, completion: @escaping (Result<[Stock], Error>) -> Void)
+}
+
+class StockService: StockServiceProtocol {
     private let cacheKey = "cachedStocks"
 
     func fetchStocks(from url: URL, completion: @escaping (Result<[Stock], Error>) -> Void) {

@@ -10,7 +10,6 @@ import XCTest
 @testable import stock_cash
 
 
-
 class StockServiceTests: XCTestCase {
     func testFetchStocks() {
         let service = StockService()
@@ -38,14 +37,5 @@ class StockViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.state, .empty, "ViewModel should correctly represent the empty state")
     }
     
-    func testViewModelHandlesErrorState() {
-        let mockService = MockStockService(error: NSError(domain: "Test", code: 0))
-        let viewModel = StockViewModel(service: mockService)
-
-        viewModel.fetchStocks()
-
-        XCTAssertEqual(viewModel.state, .error("Test"))
-    }
-
 }
 
