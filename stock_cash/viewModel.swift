@@ -19,6 +19,10 @@ class StockViewModel: ObservableObject {
     }
 
     private let service = StockService()
+    
+    init(service: StockService = StockService()) {
+            self.service = service
+        }
 
     func fetchStocks() {
         state = .loading
