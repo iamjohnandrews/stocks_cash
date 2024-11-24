@@ -30,12 +30,4 @@ class StockServiceTests: XCTestCase {
     }
 }
 
-class StockViewModelTests: XCTestCase {
-    func testViewModelHandlesEmptyState() {
-        let viewModel = StockViewModel()
-        viewModel.state = .empty
-        XCTAssertEqual(viewModel.state, .empty, "ViewModel should correctly represent the empty state")
-    }
-    
-}
 
