@@ -24,8 +24,13 @@ struct StockListView: View {
                     .font(.headline)
                     .foregroundColor(.gray)
             case .error(let message):
-                Text("Error: \(message)")
-                    .foregroundColor(.red)
+                VStack {
+                        Text("Error: \(message)")
+                            .foregroundColor(.red)
+                        Button("Retry") {
+                            viewModel.fetchStocks()
+                        }
+                    }
             }
         }
         .onAppear {
