@@ -5,16 +5,17 @@
 //  Created by John Andrews on 11/22/24.
 //
 
-import Testing
 import XCTest
 @testable import stock_cash
 
 
 class StockServiceTests: XCTestCase {
+
     func testFetchStocks() {
         let service = StockService()
         let url = URL(string: "https://storage.googleapis.com/cash-homework/cash-stocks-api/portfolio.json")!
         let expectation = self.expectation(description: "Fetching stocks succeeds")
+        
 
         service.fetchStocks(from: url) { result in
             switch result {
@@ -28,6 +29,7 @@ class StockServiceTests: XCTestCase {
 
         waitForExpectations(timeout: 5, handler: nil)
     }
+
 }
 
 

@@ -12,7 +12,6 @@ protocol StockServiceProtocol {
 }
 
 class StockService: StockServiceProtocol {
-    private let cacheKey = "cachedStocks"
 
     func fetchStocks(from url: URL, completion: @escaping (Result<[Stock], Error>) -> Void) {
         NetworkManager().request(url) { (result: Result<Portfolio, Error>) in

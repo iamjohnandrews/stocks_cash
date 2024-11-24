@@ -58,5 +58,4 @@ struct StockRowView: View {
 
 #Preview {
     StockListView()
-//    StockRowView(stock: )
 }
