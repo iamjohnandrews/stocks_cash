@@ -7,14 +7,19 @@
 
 import Foundation
 
-protocol StockServiceProtocol {
-    func fetchStocks(from url: URL, completion: @escaping (Result<[Stock], Error>) -> Void)
+protocol NetworkManagerProtocol {
+    func request<T: Decodable>(_ url: URL, completion: @escaping (Result<T, Error>) -> Void)
 }
 
-class StockService: StockServiceProtocol {
+class StockService {
+    private let networkManager: NetworkManagerProtocol
+
+    init(networkManager: NetworkManagerProtocol = NetworkManager()) {
+        self.networkManager = networkManager
+    }
 
     func fetchStocks(from url: URL, completion: @escaping (Result<[Stock], Error>) -> Void) {
-        NetworkManager().request(url) { (result: Result<Portfolio, Error>) in
+        networkManager.request(url) { (result: Result<Portfolio, Error>) in
             switch result {
             case .success(let portfolio):
                 completion(.success(portfolio.stocks))
@@ -25,8 +30,7 @@ class StockService: StockServiceProtocol {
     }
 }
 
-
-class NetworkManager {
+class NetworkManager: NetworkManagerProtocol {
     func request<T: Decodable>(_ url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {

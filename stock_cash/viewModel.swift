@@ -18,11 +18,11 @@ class StockViewModel: ObservableObject {
         case error(String)
     }
 
-    private let service: StockServiceProtocol
+    private let service: StockService
     
-    init(service: StockServiceProtocol = StockService()) {
-            self.service = service
-        }
+    init(service: StockService = StockService()) {
+        self.service = service
+    }
 
     func fetchStocks() {
         state = .loading
