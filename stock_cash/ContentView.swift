@@ -11,26 +11,37 @@ struct StockListView: View {
     @StateObject private var viewModel = StockViewModel()
 
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .loading:
-                ProgressView("Loading stocks...")
-            case .loaded:
-                List(viewModel.stocks) { stock in
-                    StockRowView(stock: stock)
-                }
-            case .empty:
-                Text("No stocks available.")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-            case .error(let message):
-                VStack {
+        VStack {
+            TextField("search stocks", text: $viewModel.filterQuery)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+                .padding(.top)
+    
+            Group {
+                switch viewModel.state {
+                case .loading:
+                    ProgressView("Loading stocks...")
+                case .loaded:
+                    List(viewModel.filteredStocks) { stock in
+                        StockRowView(stock: stock)
+                    }
+                case .empty:
+                    Text("No stocks available.")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                case .noresults:
+                    Text("No stocks in search results.")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                case .error(let message):
+                    VStack {
                         Text("Error: \(message)")
                             .foregroundColor(.red)
                         Button("Retry") {
                             viewModel.fetchStocks()
                         }
                     }
+                }
             }
         }
         .onAppear {

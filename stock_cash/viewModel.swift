@@ -10,12 +10,30 @@ import Foundation
 class StockViewModel: ObservableObject {
     @Published var stocks: [Stock] = []
     @Published var state: ViewState = .loading
+    @Published var filterQuery: String = ""
+    var filteredStocks: [Stock] {
+        if filterQuery.isEmpty {
+            return stocks
+        } else {
+            let a = stocks.filter { stock in
+                stock.name.lowercased().contains(filterQuery.lowercased()) ||
+                stock.ticker.lowercased().contains(filterQuery.lowercased())
+            }
+            if a.isEmpty {
+                state = .noresults
+            } else {
+                state = .loading
+            }
+            return a
+        }
+    }
 
     enum ViewState: Equatable {
         case loading
         case loaded
         case empty
         case error(String)
+        case noresults
     }
 
     private let service: StockService
